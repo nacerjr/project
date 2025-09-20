@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from decouple import config
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -9,9 +10,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='your-secret-key-here')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'your-render-domain.onrender.com']
+ALLOWED_HOSTS = [
+    'localhost', 
+    '127.0.0.1', 
+    '.onrender.com',  # Permet tous les sous-domaines Render
+    config('RENDER_EXTERNAL_HOSTNAME', default='')
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -28,6 +34,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Ajouté pour les fichiers statiques
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -57,17 +64,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bergomi_store.wsgi.application'
 
-# Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('DB_NAME', default='bergomi_store'),
-        'USER': config('DB_USER', default='root'),
-        'PASSWORD': config('DB_PASSWORD', default=''),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='3306'),
+# Database - Support MySQL local et PostgreSQL production
+if config('DATABASE_URL', default=None):
+    # Production avec Supabase (PostgreSQL)
+    DATABASES = {
+        'default': dj_database_url.parse(config('DATABASE_URL'))
     }
-}
+else:
+    # Développement local (MySQL)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': config('DB_NAME', default='bergomi_store'),
+            'USER': config('DB_USER', default='root'),
+            'PASSWORD': config('DB_PASSWORD', default=''),
+            'HOST': config('DB_HOST', default='localhost'),
+            'PORT': config('DB_PORT', default='3306'),
+        }
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -91,22 +105,29 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+# Static files configuration pour Render
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Configuration WhiteNoise pour les fichiers statiques
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CORS settings
+# CORS settings - Ajustez selon vos domaines frontend
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://your-frontend-domain.com",
+    "https://your-frontend-domain.netlify.app",  # Remplacez par votre domaine frontend
+    config('FRONTEND_URL', default=''),
 ]
+
+CORS_ALLOW_ALL_ORIGINS = DEBUG  # Permet tous les origins en développement
 
 # REST Framework
 REST_FRAMEWORK = {
@@ -117,3 +138,11 @@ REST_FRAMEWORK = {
 
 # Admin token for authentication
 ADMIN_TOKEN = config('ADMIN_TOKEN', default='bergomi-admin-2024')
+
+# Security settings pour production
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
