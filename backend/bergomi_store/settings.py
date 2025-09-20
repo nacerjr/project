@@ -125,6 +125,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     "https://your-frontend-domain.netlify.app",  # Remplacez par votre domaine frontend
     config('FRONTEND_URL', default=''),
+    "https://*.onrender.com",  # Ajoutez cette ligne pour tous les domaines Render
+
 ]
 
 CORS_ALLOW_ALL_ORIGINS = DEBUG  # Permet tous les origins en développement

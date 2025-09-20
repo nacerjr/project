@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Star } from 'lucide-react';
+import { API_URL } from '../config/api.ts'; // AJOUTÉ : Import de la configuration API
 
 interface Account {
   id: number;
@@ -40,7 +41,8 @@ const Home: React.FC = () => {
 
   const fetchAccounts = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/accounts/');
+      // MODIFIÉ : Utilisation de API_URL au lieu de l'URL hardcodée
+      const response = await fetch(`${API_URL}/accounts/`);
       const data = await response.json();
       setAccounts(data);
     } catch (error) {

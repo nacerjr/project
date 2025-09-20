@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Plus, Edit, Trash2, Save, Upload, X, Eye, Tag, Percent } from 'lucide-react';
-
+import { API_URL, API_BASE_URL } from '../config/api.ts';
 interface PlayerCard {
   id?: number;
   image: string;
@@ -60,7 +60,7 @@ const AdminPanel: React.FC = () => {
 
   const verifyToken = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/verify-admin/${token}/`);
+      const response = await fetch(`${API_URL}/verify-admin/${token}/`);
       if (response.ok) {
         setIsAuthenticated(true);
       } else {
@@ -76,7 +76,7 @@ const AdminPanel: React.FC = () => {
 
   const fetchAccounts = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/accounts/');
+      const response = await fetch(`${API_URL}/accounts/`);
       if (response.ok) {
         const data = await response.json();
         setAccounts(data);
@@ -89,7 +89,7 @@ const AdminPanel: React.FC = () => {
 
   const fetchWhatsappLink = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/whatsapp-link/');
+      const response = await fetch(`${API_URL}/whatsapp-link/`);
       if (response.ok) {
         const data = await response.json();
         setWhatsappLink(data.link || '');
@@ -166,7 +166,7 @@ const AdminPanel: React.FC = () => {
     
     try {
       // Vérifier d'abord si le serveur est accessible
-      const healthCheck = await fetch('http://localhost:8000/', { 
+      const healthCheck = await fetch(`${API_BASE_URL}/`, {
         method: 'GET',
         mode: 'cors'
       }).catch(() => null);
@@ -200,8 +200,8 @@ const AdminPanel: React.FC = () => {
       });
 
       const url = account.id 
-        ? `http://localhost:8000/api/accounts/${account.id}/`
-        : 'http://localhost:8000/api/accounts/';
+        ? `${API_URL}/accounts/${account.id}/`
+        : `${API_URL}/accounts/`;
       
       const method = account.id ? 'PUT' : 'POST';
       
@@ -247,7 +247,7 @@ const AdminPanel: React.FC = () => {
       console.error('🔥 Network error:', error);
       
       if (error.message.includes('fetch')) {
-        alert('🔥 Network error: Cannot reach the server.\n\n✅ Solutions:\n1. Make sure Django server is running (python manage.py runserver)\n2. Check if localhost:8000 is accessible\n3. Check CORS settings in Django');
+        alert('🔥 Network error: Cannot reach the server.\n\n✅ Solutions:\n1. Check your internet connection\n2. Server might be temporarily down\n3. Contact support if the issue persists');
       } else {
         alert(`🔥 Unexpected error: ${error.message}`);
       }
@@ -259,7 +259,7 @@ const AdminPanel: React.FC = () => {
   const handleDeleteAccount = async (id: number) => {
     if (window.confirm('Are you sure you want to delete this account?')) {
       try {
-        const response = await fetch(`http://localhost:8000/api/accounts/${id}/`, {
+        const response = await fetch(`${API_URL}/accounts/${id}/`, {
           method: 'DELETE'
         });
         
@@ -278,7 +278,7 @@ const AdminPanel: React.FC = () => {
 
   const handleSaveWhatsappLink = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/whatsapp-link/', {
+      const response = await fetch(`${API_URL}/whatsapp-link/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ link: whatsappLink })

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Star, Tag, Percent } from 'lucide-react';
+import { API_URL } from '../config/api.ts';
 
 interface PlayerCard {
   id: number;
@@ -44,7 +45,7 @@ const AccountDetail: React.FC = () => {
 
   const fetchAccount = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/accounts/${id}/`);
+      const response = await fetch(`${API_URL}/accounts/${id}/`);
       const data = await response.json();
       setAccount(data);
     } catch (error) {
@@ -56,7 +57,7 @@ const AccountDetail: React.FC = () => {
 
   const fetchWhatsappLink = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/whatsapp-link/');
+      const response = await fetch(`${API_URL}/whatsapp-link/`);
       const data = await response.json();
       setWhatsappLink(data.link);
     } catch (error) {
