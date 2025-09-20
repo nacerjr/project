@@ -125,7 +125,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     "https://your-frontend-domain.netlify.app",  # Remplacez par votre domaine frontend
     config('FRONTEND_URL', default=''),
-    "https://*.onrender.com",  # Ajoutez cette ligne pour tous les domaines Render
+    "https://bergomi-store-frontend.onrender.com",  # URL exacte ✅
 
 ]
 
