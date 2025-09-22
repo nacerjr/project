@@ -64,22 +64,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bergomi_store.wsgi.application'
 
-# Database - Support MySQL local et PostgreSQL production
+# Database - Configuration pour PostgreSQL Render
+# Render fournit automatiquement la variable d'environnement DATABASE_URL
 if config('DATABASE_URL', default=None):
-    # Production avec Supabase (PostgreSQL)
+    # Production avec PostgreSQL Render
     DATABASES = {
-        'default': dj_database_url.parse(config('DATABASE_URL'))
+        'default': dj_database_url.parse(
+            config('DATABASE_URL'),
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
     }
 else:
-    # Développement local (MySQL)
+    # Développement local - vous pouvez garder MySQL ou utiliser PostgreSQL
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.mysql',
+            'ENGINE': 'django.db.backends.mysql',  # ou 'django.db.backends.postgresql'
             'NAME': config('DB_NAME', default='bergomi_store'),
             'USER': config('DB_USER', default='root'),
             'PASSWORD': config('DB_PASSWORD', default=''),
             'HOST': config('DB_HOST', default='localhost'),
-            'PORT': config('DB_PORT', default='3306'),
+            'PORT': config('DB_PORT', default='3306'),  # ou '5432' pour PostgreSQL
         }
     }
 
