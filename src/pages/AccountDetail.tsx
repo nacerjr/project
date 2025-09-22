@@ -50,7 +50,6 @@ const AccountDetail: React.FC = () => {
       setAccount(data);
     } catch (error) {
       console.error('Error fetching account:', error);
-      // No mock data - redirect to home if account not found
       navigate('/');
     }
   };
@@ -88,47 +87,47 @@ const AccountDetail: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       {/* Navigation */}
-      <nav className="flex items-center justify-between p-6 border-b border-gray-800">
+      <nav className="flex items-center justify-between p-4 md:p-6 border-b border-gray-800">
         <button 
           onClick={() => navigate('/')}
           className="flex items-center space-x-2 text-white hover:text-yellow-400 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
-          <span>Back to Store</span>
+          <span className="text-sm md:text-base">Back to Store</span>
         </button>
         <div className="flex items-center space-x-2">
           <img 
             src="/image-removebg-preview-removebg-preview.png" 
             alt="Bergomi Store Logo" 
-            className="w-10 h-10 rounded-full"
+            className="w-8 h-8 md:w-10 md:h-10 rounded-full"
           />
-          <span className="text-white text-lg font-bold">Bergomi Store</span>
+          <span className="text-white text-sm md:text-lg font-bold">Bergomi Store</span>
         </div>
       </nav>
 
       {/* Account Detail */}
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-4 md:px-6 py-4 md:py-8">
         {/* Main Image avec étiquettes */}
-        <div className="mb-12 relative">
+        <div className="mb-8 md:mb-12 relative">
           <img 
             src={account.image_detail} 
             alt={account.name}
             className="w-full object-contain rounded-lg shadow-2xl bg-gray-800"
-            style={{ maxHeight: '600px' }}
+            style={{ maxHeight: '400px' }}
           />
           
           {/* Étiquettes sur l'image principale */}
-          <div className="absolute top-6 left-6 flex flex-col space-y-3">
+          <div className="absolute top-3 md:top-6 left-3 md:left-6 flex flex-col space-y-2 md:space-y-3">
             {account.is_new && (
-              <div className="bg-green-500 text-white px-4 py-2 rounded-full font-bold text-sm uppercase tracking-wider shadow-lg animate-pulse flex items-center space-x-2">
-                <Tag className="w-4 h-4" />
+              <div className="bg-green-500 text-white px-2 md:px-4 py-1 md:py-2 rounded-full font-bold text-xs md:text-sm uppercase tracking-wider shadow-lg animate-pulse flex items-center space-x-1 md:space-x-2">
+                <Tag className="w-3 h-3 md:w-4 md:h-4" />
                 <span>NEW</span>
               </div>
             )}
             
             {account.is_promo && account.has_discount && (
-              <div className="bg-red-500 text-white px-4 py-2 rounded-full font-bold text-sm uppercase tracking-wider shadow-lg animate-pulse flex items-center space-x-2">
-                <Percent className="w-4 h-4" />
+              <div className="bg-red-500 text-white px-2 md:px-4 py-1 md:py-2 rounded-full font-bold text-xs md:text-sm uppercase tracking-wider shadow-lg animate-pulse flex items-center space-x-1 md:space-x-2">
+                <Percent className="w-3 h-3 md:w-4 md:h-4" />
                 <span>PROMO</span>
               </div>
             )}
@@ -136,48 +135,48 @@ const AccountDetail: React.FC = () => {
         </div>
 
         {/* Description Section avec prix mis à jour */}
-        <div className="mb-12">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h1 className="text-4xl font-bold text-white mb-4">{account.name}</h1>
+        <div className="mb-8 md:mb-12">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 md:mb-6">
+            <div className="mb-4 md:mb-0">
+              <h1 className="text-2xl md:text-4xl font-bold text-white mb-2 md:mb-4">{account.name}</h1>
               
               {/* Prix avec gestion des promotions */}
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 md:space-x-4">
                 {account.has_discount ? (
                   <>
-                    <span className="text-4xl font-bold text-red-400">${account.promo_price}</span>
-                    <span className="text-2xl text-gray-400 line-through">${account.price}</span>
-                    <div className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                    <span className="text-2xl md:text-4xl font-bold text-red-400">${account.promo_price}</span>
+                    <span className="text-lg md:text-2xl text-gray-400 line-through">${account.price}</span>
+                    <div className="bg-red-500 text-white px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-bold">
                       SAVE ${(account.price - (account.promo_price || 0)).toFixed(2)}
                     </div>
                   </>
                 ) : (
-                  <span className="text-4xl font-bold text-yellow-400">${account.effective_price}</span>
+                  <span className="text-2xl md:text-4xl font-bold text-yellow-400">${account.effective_price}</span>
                 )}
               </div>
             </div>
             
-            <div className="text-right">
+            <div className="text-left md:text-right">
               <div className="flex items-center text-yellow-400 mb-2">
                 {[...Array(account.rating || 5)].map((_, i) => (
-                  <Star key={i} className="w-6 h-6 fill-current" />
+                  <Star key={i} className="w-4 h-4 md:w-6 md:h-6 fill-current" />
                 ))}
               </div>
-              <div className="text-gray-400 text-sm">
+              <div className="text-gray-400 text-xs md:text-sm">
                 {account.rating}/5 Stars
               </div>
             </div>
           </div>
           
-          <div className="bg-gray-800 rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">Description</h2>
-            <p className="text-gray-300 leading-relaxed">{account.description}</p>
+          <div className="bg-gray-800 rounded-lg p-4 md:p-6">
+            <h2 className="text-lg md:text-xl font-semibold mb-3 md:mb-4">Description</h2>
+            <p className="text-gray-300 leading-relaxed text-sm md:text-base">{account.description}</p>
           </div>
         </div>
 
-        {/* Best Players Section - Toutes les catégories dans une seule page */}
-        <div className="mb-12">
-          <h2 className="text-3xl font-bold text-center mb-8">Best Players</h2>
+        {/* Best Players Section - Version responsive pour mobile */}
+        <div className="mb-8 md:mb-12">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8">Best Players</h2>
           
           {/* Affichage de toutes les catégories */}
           {categories.map((category) => {
@@ -186,38 +185,27 @@ const AccountDetail: React.FC = () => {
             if (cards.length === 0) return null;
             
             return (
-              <div key={category.key} className="mb-12">
+              <div key={category.key} className="mb-8 md:mb-12">
                 {/* En-tête de catégorie avec style jaune et texte noir */}
-                <div className="mb-6">
-                  <div className="bg-yellow-400 rounded-lg p-4 text-center shadow-lg">
-                    <h3 className="text-2xl font-bold text-black uppercase tracking-wider">
+                <div className="mb-4 md:mb-6">
+                  <div className="bg-yellow-400 rounded-lg p-3 md:p-4 text-center shadow-lg">
+                    <h3 className="text-xl md:text-2xl font-bold text-black uppercase tracking-wider">
                       {category.label}
                     </h3>
                   </div>
                 </div>
 
-                {/* Grille de cartes avec scroll horizontal sans scrollbar visible */}
+                {/* Grille responsive pour mobile et scroll horizontal pour desktop */}
                 <div className="relative">
-                  <div 
-                    className="flex space-x-6 overflow-x-auto px-4 pb-4"
-                    style={{
-                      scrollbarWidth: 'none', // Firefox
-                      msOverflowStyle: 'none', // IE and Edge
-                      WebkitScrollbar: { display: 'none' } // Chrome, Safari, Opera
-                    }}
-                  >
-                    <style jsx>{`
-                      div::-webkit-scrollbar {
-                        display: none;
-                      }
-                    `}</style>
+                  {/* Version mobile : grille 2 colonnes */}
+                  <div className="md:hidden grid grid-cols-2 gap-3 px-2">
                     {cards.map((card) => (
-                      <div key={card.id} className="group cursor-pointer flex-shrink-0">
+                      <div key={card.id} className="group cursor-pointer">
                         <div className="bg-gradient-to-b from-green-400 to-green-600 rounded-xl overflow-hidden hover:from-green-300 hover:to-green-500 transition-all duration-300 shadow-xl hover:shadow-2xl border-2 border-green-500 hover:border-green-300">
                           <img 
                             src={card.image} 
                             alt="Player Card"
-                            className="w-48 h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                            className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-300"
                             onError={(e) => {
                               e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjI1NiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNGFmNTNhO3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzE2YTM0YTtzdG9wLW9wYWNpdHk6MSIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjI1NiIgZmlsbD0idXJsKCNnKSIvPjx0ZXh0IHg9Ijk2IiB5PSIxMjgiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5DQVJEPC90ZXh0Pjwvc3ZnPg==';
                             }}
@@ -226,13 +214,45 @@ const AccountDetail: React.FC = () => {
                       </div>
                     ))}
                   </div>
-                  
-                  {/* Indicateur de scroll si nécessaire */}
-                  {cards.length > 4 && (
-                    <div className="text-center mt-4">
-                      <p className="text-white/60 text-sm">← Scroll horizontally to see more cards →</p>
+
+                  {/* Version desktop : scroll horizontal */}
+                  <div className="hidden md:block">
+                    <div 
+                      className="flex space-x-6 overflow-x-auto px-4 pb-4"
+                      style={{
+                        scrollbarWidth: 'none',
+                        msOverflowStyle: 'none',
+                        WebkitScrollbar: { display: 'none' }
+                      }}
+                    >
+                      <style jsx>{`
+                        div::-webkit-scrollbar {
+                          display: none;
+                        }
+                      `}</style>
+                      {cards.map((card) => (
+                        <div key={card.id} className="group cursor-pointer flex-shrink-0">
+                          <div className="bg-gradient-to-b from-green-400 to-green-600 rounded-xl overflow-hidden hover:from-green-300 hover:to-green-500 transition-all duration-300 shadow-xl hover:shadow-2xl border-2 border-green-500 hover:border-green-300">
+                            <img 
+                              src={card.image} 
+                              alt="Player Card"
+                              className="w-48 h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                              onError={(e) => {
+                                e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjI1NiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNGFmNTNhO3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzE2YTM0YTtzdG9wLW9wYWNpdHk6MSIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjI1NiIgZmlsbD0idXJsKCNnKSIvPjx0ZXh0IHg9Ijk2IiB5PSIxMjgiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5DQVJEPC90ZXh0Pjwvc3ZnPg==';
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  )}
+                    
+                    {/* Indicateur de scroll si nécessaire */}
+                    {cards.length > 4 && (
+                      <div className="text-center mt-4">
+                        <p className="text-white/60 text-sm">← Scroll horizontally to see more cards →</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             );
@@ -240,39 +260,39 @@ const AccountDetail: React.FC = () => {
           
           {/* Message si aucune carte dans toutes les catégories */}
           {account.player_cards.length === 0 && (
-            <div className="text-center py-12">
+            <div className="text-center py-8 md:py-12">
               <div className="text-white/60 text-lg">No player cards available for this account.</div>
               <div className="text-white/40 text-sm mt-2">Cards will be displayed here once available.</div>
             </div>
           )}
         </div>
 
-        {/* Buy Now Button avec prix dynamique */}
+        {/* Buy Now Button avec prix dynamique - version responsive */}
         <div className="text-center">
-          <div className="bg-gray-800 rounded-2xl p-8 mb-6 max-w-md mx-auto">
-            <h3 className="text-2xl font-bold mb-4">Ready to Buy?</h3>
+          <div className="bg-gray-800 rounded-2xl p-4 md:p-8 mb-4 md:mb-6 max-w-md mx-auto">
+            <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4">Ready to Buy?</h3>
             
             {/* Récapitulatif du prix */}
-            <div className="mb-6">
+            <div className="mb-4 md:mb-6">
               {account.has_discount ? (
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-400">Original Price:</span>
-                    <span className="text-gray-400 line-through">${account.price}</span>
+                    <span className="text-gray-400 text-sm md:text-base">Original Price:</span>
+                    <span className="text-gray-400 line-through text-sm md:text-base">${account.price}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-white font-semibold">Promo Price:</span>
-                    <span className="text-red-400 text-xl font-bold">${account.promo_price}</span>
+                    <span className="text-white font-semibold text-sm md:text-base">Promo Price:</span>
+                    <span className="text-red-400 text-lg md:text-xl font-bold">${account.promo_price}</span>
                   </div>
                   <div className="border-t border-gray-600 pt-2 flex justify-between items-center">
-                    <span className="text-green-400 font-semibold">You Save:</span>
-                    <span className="text-green-400 font-bold">${(account.price - (account.promo_price || 0)).toFixed(2)}</span>
+                    <span className="text-green-400 font-semibold text-sm md:text-base">You Save:</span>
+                    <span className="text-green-400 font-bold text-sm md:text-base">${(account.price - (account.promo_price || 0)).toFixed(2)}</span>
                   </div>
                 </div>
               ) : (
                 <div className="flex justify-between items-center">
-                  <span className="text-white font-semibold">Total Price:</span>
-                  <span className="text-yellow-400 text-xl font-bold">${account.effective_price}</span>
+                  <span className="text-white font-semibold text-sm md:text-base">Total Price:</span>
+                  <span className="text-yellow-400 text-lg md:text-xl font-bold">${account.effective_price}</span>
                 </div>
               )}
             </div>
@@ -280,7 +300,7 @@ const AccountDetail: React.FC = () => {
             <button 
               onClick={handleBuyNow}
               disabled={!whatsappLink}
-              className={`w-full flex items-center justify-center gap-3 px-8 py-4 text-xl font-bold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl ${
+              className={`w-full flex items-center justify-center gap-2 md:gap-3 px-4 md:px-8 py-3 md:py-4 text-lg md:text-xl font-bold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl ${
                 whatsappLink 
                   ? account.has_discount 
                     ? 'bg-red-500 text-white hover:bg-red-600'
@@ -290,9 +310,11 @@ const AccountDetail: React.FC = () => {
             >
               {whatsappLink ? (
                 <>
-                  {account.has_discount ? `Buy Now - $${account.promo_price}` : `Buy Now - $${account.effective_price}`}
+                  <span className="text-sm md:text-xl">
+                    {account.has_discount ? `Buy Now - $${account.promo_price}` : `Buy Now - $${account.effective_price}`}
+                  </span>
                   <svg 
-                    className="w-6 h-6 fill-current" 
+                    className="w-5 h-5 md:w-6 md:h-6 fill-current" 
                     viewBox="0 0 24 24" 
                     xmlns="http://www.w3.org/2000/svg"
                   >
@@ -306,7 +328,7 @@ const AccountDetail: React.FC = () => {
           </div>
           
           {whatsappLink && (
-            <p className="text-white/60 text-sm">
+            <p className="text-white/60 text-xs md:text-sm">
               Click to contact us on WhatsApp and complete your purchase
             </p>
           )}
