@@ -119,18 +119,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CORS settings - Ajustez selon vos domaines frontend
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://your-frontend-domain.netlify.app",  # Remplacez par votre domaine frontend
-    config('FRONTEND_URL', default=''),
-    "https://bergomi-store-frontend.onrender.com",  # URL exacte ✅
-
-]
-
-CORS_ALLOW_ALL_ORIGINS = True  # Permet tous les origins en développement
-
+# CORS settings temporaires pour le déploiement
+CORS_ALLOW_ALL_ORIGINS = True
 # REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
