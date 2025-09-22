@@ -129,7 +129,7 @@ CORS_ALLOWED_ORIGINS = [
 
 ]
 
-CORS_ALLOW_ALL_ORIGINS = DEBUG  # Permet tous les origins en développement
+CORS_ALLOW_ALL_ORIGINS = True  # Permet tous les origins en développement
 
 # REST Framework
 REST_FRAMEWORK = {
