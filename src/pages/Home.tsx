@@ -77,10 +77,10 @@ const Home: React.FC = () => {
 
       {/* Fixed Logo that moves with scroll */}
       <div className={`fixed left-1/2 transform -translate-x-1/2 z-30 transition-all duration-500 ${
-        scrolled ? 'top-2 sm:top-4' : 'top-16 sm:top-32'
+        scrolled ? 'top-4' : 'top-20 sm:top-32'
       }`}>
         <div className={`rounded-full border-4 border-white/90 bg-black/30 backdrop-blur-sm overflow-hidden transition-all duration-500 ${
-          scrolled ? 'w-16 h-16 sm:w-28 sm:h-28' : 'w-32 h-32 sm:w-56 sm:h-56'
+          scrolled ? 'w-20 h-20 sm:w-28 sm:h-28' : 'w-40 h-40 sm:w-56 sm:h-56'
         }`}>
           <img 
             src="/image-removebg-preview-removebg-preview.png" 
@@ -96,7 +96,7 @@ const Home: React.FC = () => {
         <div className="h-screen flex items-center justify-center text-center px-4">
           <div className="max-w-2xl mx-auto">
             {/* Space for logo - responsive spacing */}
-            <div className="mb-8 h-24 sm:h-48"></div>
+            <div className="mb-6 h-32 sm:h-48"></div>
             
             <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold text-white mb-4 sm:mb-6 drop-shadow-2xl">
               Bergomi Store
