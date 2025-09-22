@@ -195,17 +195,27 @@ const AccountDetail: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Grille responsive pour mobile et scroll horizontal pour desktop */}
+                {/* Rangées horizontales pour mobile et desktop */}
                 <div className="relative">
-                  {/* Version mobile : grille 2 colonnes */}
-                  <div className="md:hidden grid grid-cols-2 gap-3 px-2">
+                  <div 
+                    className="flex space-x-3 md:space-x-6 overflow-x-auto px-2 md:px-4 pb-4"
+                    style={{
+                      scrollbarWidth: 'none',
+                      msOverflowStyle: 'none',
+                    }}
+                  >
+                    <style jsx>{`
+                      div::-webkit-scrollbar {
+                        display: none;
+                      }
+                    `}</style>
                     {cards.map((card) => (
-                      <div key={card.id} className="group cursor-pointer">
+                      <div key={card.id} className="group cursor-pointer flex-shrink-0">
                         <div className="bg-gradient-to-b from-green-400 to-green-600 rounded-xl overflow-hidden hover:from-green-300 hover:to-green-500 transition-all duration-300 shadow-xl hover:shadow-2xl border-2 border-green-500 hover:border-green-300">
                           <img 
                             src={card.image} 
                             alt="Player Card"
-                            className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-300"
+                            className="w-24 h-32 md:w-48 md:h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                             onError={(e) => {
                               e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjI1NiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNGFmNTNhO3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzE2YTM0YTtzdG9wLW9wYWNpdHk6MSIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjI1NiIgZmlsbD0idXJsKCNnKSIvPjx0ZXh0IHg9Ijk2IiB5PSIxMjgiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5DQVJEPC90ZXh0Pjwvc3ZnPg==';
                             }}
@@ -214,45 +224,13 @@ const AccountDetail: React.FC = () => {
                       </div>
                     ))}
                   </div>
-
-                  {/* Version desktop : scroll horizontal */}
-                  <div className="hidden md:block">
-                    <div 
-                      className="flex space-x-6 overflow-x-auto px-4 pb-4"
-                      style={{
-                        scrollbarWidth: 'none',
-                        msOverflowStyle: 'none',
-                        WebkitScrollbar: { display: 'none' }
-                      }}
-                    >
-                      <style jsx>{`
-                        div::-webkit-scrollbar {
-                          display: none;
-                        }
-                      `}</style>
-                      {cards.map((card) => (
-                        <div key={card.id} className="group cursor-pointer flex-shrink-0">
-                          <div className="bg-gradient-to-b from-green-400 to-green-600 rounded-xl overflow-hidden hover:from-green-300 hover:to-green-500 transition-all duration-300 shadow-xl hover:shadow-2xl border-2 border-green-500 hover:border-green-300">
-                            <img 
-                              src={card.image} 
-                              alt="Player Card"
-                              className="w-48 h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                              onError={(e) => {
-                                e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjI1NiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojNGFmNTNhO3N0b3Atb3BhY2l0eToxIiAvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzE2YTM0YTtzdG9wLW9wYWNpdHk6MSIgLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjI1NiIgZmlsbD0idXJsKCNnKSIvPjx0ZXh0IHg9Ijk2IiB5PSIxMjgiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNiIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5DQVJEPC90ZXh0Pjwvc3ZnPg==';
-                              }}
-                            />
-                          </div>
-                        </div>
-                      ))}
+                  
+                  {/* Indicateur de scroll pour mobile */}
+                  {cards.length > 3 && (
+                    <div className="text-center mt-2 md:mt-4">
+                      <p className="text-white/60 text-xs md:text-sm">← Swipe to see more cards →</p>
                     </div>
-                    
-                    {/* Indicateur de scroll si nécessaire */}
-                    {cards.length > 4 && (
-                      <div className="text-center mt-4">
-                        <p className="text-white/60 text-sm">← Scroll horizontally to see more cards →</p>
-                      </div>
-                    )}
-                  </div>
+                  )}
                 </div>
               </div>
             );
