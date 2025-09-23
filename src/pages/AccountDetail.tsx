@@ -216,7 +216,7 @@ const AccountDetail: React.FC = () => {
                             src={card.image} 
                             alt="Player Card"
                             className={category.key === 'managers' 
-                              ? "w-32 h-32 md:w-64 md:h-64 object-cover group-hover:scale-105 transition-transform duration-300" 
+                              ? "w-24 h-24 md:w-48 md:h-48 object-cover group-hover:scale-105 transition-transform duration-300" 
                               : "w-24 h-32 md:w-48 md:h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                             }
                             onError={(e) => {
